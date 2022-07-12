@@ -1,13 +1,7 @@
+authors = ["Gabriel Wu <wuzihua@pku.edu.cn> and contributors"]
 name = "PBRF"
 uuid = "0faf9630-b435-4af3-9ecd-94c3fe935dc0"
-authors = ["Gabriel Wu <wuzihua@pku.edu.cn> and contributors"]
 version = "0.1.0"
 
 [compat]
 julia = "1.7"
-
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test"]
