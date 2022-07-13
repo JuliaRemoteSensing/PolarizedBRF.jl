@@ -2,13 +2,13 @@
 CurrentModule = PBRF
 ```
 
-# PBRF
+# PBRF.jl
 
-Documentation for [PBRF](https://github.com/JuliaRemoteSensing/PBRF.jl).
+[PBRF.jl](https://github.com/JuliaRemoteSensing/PBRF.jl) is a Julia package for calculating polarized bidrectional reflectance factors. It is largely based on M. Mishchenko et al.'s code.
 
 ```@index
 ```
 
 ```@autodocs
-Modules = [PBRF]
+Modules = [PBRF, PBRF.Wrapper]
 ```

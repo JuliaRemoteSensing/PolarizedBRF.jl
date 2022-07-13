@@ -2,3 +2,8 @@
 *.jl.cov
 *.jl.mem
 /docs/build/
+*.log
+*.so
+*.mod
+*.dylib
+*.dll

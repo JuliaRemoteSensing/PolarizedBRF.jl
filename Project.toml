@@ -1,7 +1,14 @@
-authors = ["Gabriel Wu <wuzihua@pku.edu.cn> and contributors"]
 name = "PBRF"
 uuid = "0faf9630-b435-4af3-9ecd-94c3fe935dc0"
+authors = ["Gabriel Wu <wuzihua@pku.edu.cn> and contributors"]
 version = "0.1.0"
+
+[deps]
+DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
+FastGaussQuadrature = "442a2c76-b920-505d-bb47-c5924d526838"
+Interpolations = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
+Libdl = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
 julia = "1.7"
