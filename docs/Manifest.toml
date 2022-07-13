@@ -66,7 +66,21 @@ uuid = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 version = "0.8.6"
 
 [[deps.Documenter]]
-deps = ["ANSIColoredPrinters", "Base64", "Dates", "DocStringExtensions", "IOCapture", "InteractiveUtils", "JSON", "LibGit2", "Logging", "Markdown", "REPL", "Test", "Unicode"]
+deps = [
+  "ANSIColoredPrinters",
+  "Base64",
+  "Dates",
+  "DocStringExtensions",
+  "IOCapture",
+  "InteractiveUtils",
+  "JSON",
+  "LibGit2",
+  "Logging",
+  "Markdown",
+  "REPL",
+  "Test",
+  "Unicode",
+]
 git-tree-sha1 = "e4967ebb9dce1328d582200b03bcc44c69372312"
 uuid = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 version = "0.27.20"
@@ -95,7 +109,19 @@ deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[deps.Interpolations]]
-deps = ["AxisAlgorithms", "ChainRulesCore", "LinearAlgebra", "OffsetArrays", "Random", "Ratios", "Requires", "SharedArrays", "SparseArrays", "StaticArrays", "WoodburyMatrices"]
+deps = [
+  "AxisAlgorithms",
+  "ChainRulesCore",
+  "LinearAlgebra",
+  "OffsetArrays",
+  "Random",
+  "Ratios",
+  "Requires",
+  "SharedArrays",
+  "SparseArrays",
+  "StaticArrays",
+  "WoodburyMatrices",
+]
 git-tree-sha1 = "00a19d6ab0cbdea2978fc23c5a6482e02c192501"
 uuid = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
 version = "0.14.0"
@@ -192,7 +218,7 @@ git-tree-sha1 = "13652491f6856acfd2db29360e1bbcd4565d04f1"
 uuid = "efe28fd5-8261-553b-a9e1-b2916fc3738e"
 version = "0.5.5+0"
 
-[[deps.PBRF]]
+[[deps.PolarizedBRF]]
 deps = ["DocStringExtensions", "FastGaussQuadrature", "Interpolations", "Libdl", "StaticArrays"]
 path = ".."
 uuid = "0faf9630-b435-4af3-9ecd-94c3fe935dc0"
@@ -205,7 +231,24 @@ uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
 version = "2.3.2"
 
 [[deps.Pkg]]
-deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+deps = [
+  "Artifacts",
+  "Dates",
+  "Downloads",
+  "LibGit2",
+  "Libdl",
+  "Logging",
+  "Markdown",
+  "Printf",
+  "REPL",
+  "Random",
+  "SHA",
+  "Serialization",
+  "TOML",
+  "Tar",
+  "UUIDs",
+  "p7zip_jll",
+]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
 [[deps.Preferences]]

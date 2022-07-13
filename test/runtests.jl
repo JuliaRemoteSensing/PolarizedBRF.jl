@@ -1,12 +1,12 @@
 using DelimitedFiles: readdlm
-using PBRF
+using PolarizedBRF
 using Test
 
-@testset "PBRF.jl" begin
+@testset "PolarizedBRF.jl" begin
     @testset "Benchmark results" begin
         coeff = readdlm(joinpath(@__DIR__, "..", "fixture", "coeff.txt"))
         NG = 49
-        x, R = PBRF.Wrapper.run_pbrf(1.0, NG, coeff; epsilon=1e-7, mode=PBRF.Standard)
+        x, R = PolarizedBRF.Wrapper.run_pbrf(1.0, NG, coeff; epsilon=1e-7, mode=PolarizedBRF.Standard)
 
         @test isapprox(R[:, :, 25, 25, 1], [
                 1.054548 -0.005217 0 0

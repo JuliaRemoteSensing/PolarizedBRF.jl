@@ -1,4 +1,4 @@
-module PBRF
+module PolarizedBRF
 
 @enum QuadratureMode None NormalOriented Standard NeedNormal
 
