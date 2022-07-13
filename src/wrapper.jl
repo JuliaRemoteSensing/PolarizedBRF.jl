@@ -4,7 +4,10 @@ using DocStringExtensions: SIGNATURES
 using Libdl: dlopen, dlsym
 using ..PolarizedBRF
 
-const LIBPBRF = joinpath(@__DIR__, "..", "shared", "libpbrf" * (Sys.iswindows() ? ".dll" : Sys.islinux() ? ".so" : ".dylib"))
+const LIBPBRF = joinpath(@__DIR__,
+                         "..",
+                         "shared",
+                         "libpbrf" * (Sys.iswindows() ? ".dll" : Sys.islinux() ? ".so" : ".dylib"))
 
 """
 Calculate the Fourier coefficients of the refletion matrix using PolarizedBRF.
@@ -25,7 +28,11 @@ Results:
 - `x` is the quadrature nodes.
 - `R` is a `4 x 4 x NG x NG x LMAX1` array, storing all the Fourier coefficients.
 """
-function run_pbrf(ω, ngauss, coeff; epsilon=1e-7, mode::PolarizedBRF.QuadratureMode=PolarizedBRF.Standard)
+function run_pbrf(ω,
+                  ngauss,
+                  coeff;
+                  epsilon=1e-7,
+                  mode::PolarizedBRF.QuadratureMode=PolarizedBRF.Standard)
     0.0 < ω <= 1.0 || error("albedo must be within the range (0, 1]")
     lmax1, c = size(coeff)
     c == 6 || error("invalid expansion coefficients")
@@ -34,26 +41,36 @@ function run_pbrf(ω, ngauss, coeff; epsilon=1e-7, mode::PolarizedBRF.Quadrature
         x = zeros(ngauss)
         R = zeros(4, 4, ngauss, ngauss, lmax1)
 
-        ccall(
-            dlsym(libpbrf, :__pbrf_MOD_run_pbrf),
-            Cvoid,
-            (Ref{Int32}, Ref{Int32}, Ref{Int32}, Ref{Float64}, Ref{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}),
-            ngauss,
-            lmax1,
-            Int(mode),
-            epsilon,
-            ω,
-            coeff[:, 1],
-            coeff[:, 2],
-            coeff[:, 3],
-            coeff[:, 4],
-            coeff[:, 5],
-            coeff[:, 6],
-            x,
-            R,
-        )
+        ccall(dlsym(libpbrf, :__pbrf_MOD_run_pbrf),
+              Cvoid,
+              (Ref{Int32},
+               Ref{Int32},
+               Ref{Int32},
+               Ref{Float64},
+               Ref{Float64},
+               Ptr{Float64},
+               Ptr{Float64},
+               Ptr{Float64},
+               Ptr{Float64},
+               Ptr{Float64},
+               Ptr{Float64},
+               Ptr{Float64},
+               Ptr{Float64}),
+              ngauss,
+              lmax1,
+              Int(mode),
+              epsilon,
+              ω,
+              coeff[:, 1],
+              coeff[:, 2],
+              coeff[:, 3],
+              coeff[:, 4],
+              coeff[:, 5],
+              coeff[:, 6],
+              x,
+              R)
 
-        x, R
+        return x, R
     end
 end
 

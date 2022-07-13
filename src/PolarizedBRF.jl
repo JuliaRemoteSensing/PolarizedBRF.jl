@@ -4,22 +4,18 @@ module PolarizedBRF
 
 using DocStringExtensions: SIGNATURES
 using FastGaussQuadrature: gausslegendre
-using Interpolations: LinearInterpolation, Extrapolation, Linear
+using Dierckx: Spline2D
 using StaticArrays: @SMatrix
 
-const Δ = @SMatrix [
-    1 0 0 0
-    0 1 0 0
-    0 0 1 0
-    0 0 0 1
-]
+const Δ = @SMatrix [1 0 0 0
+                    0 1 0 0
+                    0 0 1 0
+                    0 0 0 1]
 
-const Δ₃₄ = @SMatrix [
-    1 0 0 0
-    0 1 0 0
-    0 0 -1 0
-    0 0 0 -1
-]
+const Δ₃₄ = @SMatrix [1 0 0 0
+                      0 1 0 0
+                      0 0 -1 0
+                      0 0 0 -1]
 
 const Δp = Δ + Δ₃₄
 const Δm = Δ - Δ₃₄
@@ -34,10 +30,7 @@ $(SIGNATURES)
 function get_itp(x, R)
     lmax1 = size(R)[5]
 
-    return [
-        LinearInterpolation((x, x), R[i, j, :, :, m]; extrapolation_bc=Linear())
-        for i in 1:4, j in 1:4, m in 1:lmax1
-    ]
+    return [Spline2D(x, x, R[i, j, :, :, m]) for i in 1:4, j in 1:4, m in 1:lmax1]
 end
 
 
@@ -53,8 +46,9 @@ function evaluate(itps, μ, ϕ, μ₀, ϕ₀)
     Rμϕ = @SMatrix(zeros(4, 4))
     for m in 0:mmax
         coeff = m == 0 ? 0.25 : 0.5
-        Rm = @SMatrix([itps[i, j, m+1](μ, μ₀) for i in 1:4, j in 1:4])
-        Rμϕ += ((Δp * Rm * Δp) + (Δm * Rm * Δm) * cos(m * Δϕ) + (Δm * Rm * Δp - Δp * Rm * Δm) * sin(m * Δϕ)) * coeff
+        Rm = @SMatrix([itps[i, j, m + 1](μ, μ₀) for i in 1:4, j in 1:4])
+        Rμϕ += ((Δp * Rm * Δp + Δm * Rm * Δm) * cos(m * Δϕ) +
+                (Δm * Rm * Δp - Δp * Rm * Δm) * sin(m * Δϕ)) * coeff
     end
 
     return Rμϕ

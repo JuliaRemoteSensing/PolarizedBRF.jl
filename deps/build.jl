@@ -14,8 +14,8 @@ run(`gfortran -O3 -shared -fPIC -funroll-loops -o $libpbrf pbrf.f90`)
 if !isdir(joinpath("..", "shared"))
     mkdir(joinpath("..", "shared"))
 end
-mv(libpbrf, joinpath("..", "shared", libpbrf), force=true)
-rm("pbrf.mod", force=true)
+mv(libpbrf, joinpath("..", "shared", libpbrf); force=true)
+rm("pbrf.mod"; force=true)
 
 if Sys.iswindows()
     try
