@@ -21,24 +21,31 @@ $(SIGNATURES)
 Optional parameters:
 
 - `ε` is the threshold for convergence check. Detault is `1e-7`.
-- `mode` determines the way to do the quadrature. Default is `PolarizedBRF.Standard` (`NQUADR=2` in the original code), which is a normal Gaussian-Legendre quadrature within `[0, 1]`. Other options are `PolarizedBRF.NormalOriented` (`NQUADR=1` in the original code) and `PolarizedBRF.NeedNormal` (`NQUADR=3` in the original code). Note that `PolarizedBRF.Standard` might not be suitable if the refletion in the normal direction is needed.
+- `mode` determines the way to do the quadrature. Default is `PolarizedBRF.StandardQuadrature` (`NQUADR=2` in the original code), which is a normal Gaussian-Legendre quadrature within `[0, 1]`. Other options are `PolarizedBRF.NormalOrientedQuadrature` (`NQUADR=1` in the original code), `PolarizedBRF.ExplicitNormalQuadrature` (`NQUADR=3` in the original code) and `PolarizedBRF.CustomQuadrature`. Note that:
+    - `PolarizedBRF.StandardQuadrature` might not be suitable if the refletion in the normal direction is needed.
+    - For `PolarizedBRF.CustomQuadrature`, you need to input suitable nodes `x` and weights `w` yourself.
+- `x` is the custom quadrature nodes within `[0, 1]`. Only used when `mode` is `PolarizedBRF.CustomQuadrature`.
+- `w` is the corresponding quadrature weights. Only used when `mode` is `PolarizedBRF.CustomQuadrature`.
 
 Results:
 
-- `x` is the quadrature nodes.
 - `R` is a `4 x 4 x NG x NG x LMAX1` array, storing all the Fourier coefficients.
+- `x` is the quadrature nodes.
+- `w` is the quadrature weights.
+
 """
 function run_pbrf(ω,
                   ngauss,
                   coeff;
                   ε=1e-7,
-                  mode::PolarizedBRF.QuadratureMode=PolarizedBRF.Standard)
+                  x=zeros(ngauss),
+                  w=zeros(ngauss),
+                  mode::PolarizedBRF.QuadratureMode=PolarizedBRF.StandardQuadrature)
     0.0 < ω <= 1.0 || error("albedo must be within the range (0, 1]")
     lmax1, c = size(coeff)
     c == 6 || error("invalid expansion coefficients")
 
     dlopen(LIBPBRF) do libpbrf
-        x = zeros(ngauss)
         R = zeros(4, 4, ngauss, ngauss, lmax1)
 
         ccall(dlsym(libpbrf, :__pbrf_MOD_run_pbrf),
@@ -48,6 +55,7 @@ function run_pbrf(ω,
                Ref{Int32},
                Ref{Float64},
                Ref{Float64},
+               Ptr{Float64},
                Ptr{Float64},
                Ptr{Float64},
                Ptr{Float64},
@@ -68,9 +76,10 @@ function run_pbrf(ω,
               coeff[:, 5],
               coeff[:, 6],
               x,
+              w,
               R)
 
-        return x, R
+        return R, x, w
     end
 end
 

@@ -2,6 +2,8 @@
 
 @inline ξ(m, n) = n >= m ? 1 : (-1)^(m - n)
 
+# TODO: find a better way to parrelize the expansion
+
 function wignerd!(d, s, m, n, μ, cjj, cj, j2, jj)
     ss = max(abs(m), abs(n))
     c1 = ξ(m, n) * 2.0^(-ss) * √(factorial(2ss) / factorial(abs(m + n)) / factorial(abs(m - n)))

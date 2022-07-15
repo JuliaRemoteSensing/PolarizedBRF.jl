@@ -23,13 +23,14 @@ module pbrf
 
 contains
    subroutine run_pbrf(NGAUSS, LMAX1, NQUADR, EPS, ALB, AL1, AL2, &
-      AL3, AL4, BET1, BET2, X, R)
+      AL3, AL4, BET1, BET2, X, W, R)
       integer, intent(in) :: NGAUSS, LMAX1, NQUADR
       integer :: I, M, M1
       real(8), intent(in) :: EPS, ALB, AL1(LMAX1), AL2(LMAX1), AL3(LMAX1), &
          AL4(LMAX1), BET1(LMAX1), BET2(LMAX1)
-      real(8), intent(out) :: X(NGAUSS), R(4,4,NG,NG,LMAX1)
-      real(8) :: W(NGAUSS), WW(NGAUSS), X1(NGAUSS), W1(NGAUSS)
+      real(8), intent(inout) :: X(NGAUSS), W(NGAUSS)
+      real(8), intent(out) :: R(4,4,NG,NG,LMAX1)
+      real(8) ::WW(NGAUSS), X1(NGAUSS), W1(NGAUSS)
 
       NG=NGAUSS
       NPH=4*NG

@@ -1,6 +1,6 @@
 module PolarizedBRF
 
-@enum QuadratureMode None NormalOriented Standard NeedNormal
+@enum QuadratureMode None NormalOrientedQuadrature StandardQuadrature ExplicitNormalQuadrature CustomQuadrature
 
 using Dierckx: Spline2D
 using DocStringExtensions: SIGNATURES
