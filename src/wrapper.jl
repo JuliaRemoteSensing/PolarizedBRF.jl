@@ -20,7 +20,7 @@ $(SIGNATURES)
 
 Optional parameters:
 
-- `epsilon` is the threshold for convergence check. Detault is `1e-7`.
+- `ε` is the threshold for convergence check. Detault is `1e-7`.
 - `mode` determines the way to do the quadrature. Default is `PolarizedBRF.Standard` (`NQUADR=2` in the original code), which is a normal Gaussian-Legendre quadrature within `[0, 1]`. Other options are `PolarizedBRF.NormalOriented` (`NQUADR=1` in the original code) and `PolarizedBRF.NeedNormal` (`NQUADR=3` in the original code). Note that `PolarizedBRF.Standard` might not be suitable if the refletion in the normal direction is needed.
 
 Results:
@@ -31,7 +31,7 @@ Results:
 function run_pbrf(ω,
                   ngauss,
                   coeff;
-                  epsilon=1e-7,
+                  ε=1e-7,
                   mode::PolarizedBRF.QuadratureMode=PolarizedBRF.Standard)
     0.0 < ω <= 1.0 || error("albedo must be within the range (0, 1]")
     lmax1, c = size(coeff)
@@ -59,7 +59,7 @@ function run_pbrf(ω,
               ngauss,
               lmax1,
               Int(mode),
-              epsilon,
+              ε,
               ω,
               coeff[:, 1],
               coeff[:, 2],

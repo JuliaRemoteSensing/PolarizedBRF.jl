@@ -73,6 +73,8 @@ contains
          if (M==0) call renorm1(M, LMAX1, AL1, X, W, WW)
          call rminf(M, LMAX1, ALB, AL1, X, WW, R)
       end do
+
+      deallocate(PH1, PH2, PH3, PH4, RR, F3, XX, XXX, II)
    end subroutine
 
    subroutine phase(M, LMAX1, AL1, AL2, AL3, AL4, BET1, BET2, X, WW)

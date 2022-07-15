@@ -2,9 +2,11 @@ module PolarizedBRF
 
 @enum QuadratureMode None NormalOriented Standard NeedNormal
 
+using Dierckx: Spline2D
 using DocStringExtensions: SIGNATURES
 using FastGaussQuadrature: gausslegendre
-using Dierckx: Spline2D
+using Interpolations: LinearInterpolation, Linear
+using OffsetArrays: OffsetArray
 using StaticArrays: @SMatrix
 
 const Δ = @SMatrix [1 0 0 0
@@ -20,6 +22,7 @@ const Δ₃₄ = @SMatrix [1 0 0 0
 const Δp = Δ + Δ₃₄
 const Δm = Δ - Δ₃₄
 
+include("expansion.jl")
 include("wrapper.jl")
 
 """

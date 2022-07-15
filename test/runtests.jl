@@ -9,7 +9,7 @@ using Test
         x, R = PolarizedBRF.Wrapper.run_pbrf(1.0,
                                              NG,
                                              coeff;
-                                             epsilon=1e-7,
+                                             ε=1e-7,
                                              mode=PolarizedBRF.Standard)
 
         @test isapprox(R[:, :, 25, 25, 1],
