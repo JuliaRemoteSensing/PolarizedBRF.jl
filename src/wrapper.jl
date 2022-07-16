@@ -4,9 +4,9 @@ using DocStringExtensions: SIGNATURES
 using Libdl: dlopen, dlsym
 using ..PolarizedBRF
 
-const LIBPBRF = joinpath(@__DIR__,
-                         "..",
-                         "shared",
+export run_pbrf
+
+const LIBPBRF = joinpath(@__DIR__, "..", "shared",
                          "libpbrf" * (Sys.iswindows() ? ".dll" : Sys.islinux() ? ".so" : ".dylib"))
 
 """
@@ -34,12 +34,7 @@ Results:
 - `w` is the quadrature weights.
 
 """
-function run_pbrf(ω,
-                  ngauss,
-                  coeff;
-                  ε=1e-7,
-                  x=zeros(ngauss),
-                  w=zeros(ngauss),
+function run_pbrf(ω, ngauss, coeff; ε=1e-7, x=zeros(ngauss), w=zeros(ngauss),
                   mode::PolarizedBRF.QuadratureMode=PolarizedBRF.StandardQuadrature)
     0.0 < ω <= 1.0 || error("albedo must be within the range (0, 1]")
     lmax1, c = size(coeff)
@@ -48,36 +43,10 @@ function run_pbrf(ω,
     dlopen(LIBPBRF) do libpbrf
         R = zeros(4, 4, ngauss, ngauss, lmax1)
 
-        ccall(dlsym(libpbrf, :__pbrf_MOD_run_pbrf),
-              Cvoid,
-              (Ref{Int32},
-               Ref{Int32},
-               Ref{Int32},
-               Ref{Float64},
-               Ref{Float64},
-               Ptr{Float64},
-               Ptr{Float64},
-               Ptr{Float64},
-               Ptr{Float64},
-               Ptr{Float64},
-               Ptr{Float64},
-               Ptr{Float64},
-               Ptr{Float64},
-               Ptr{Float64}),
-              ngauss,
-              lmax1,
-              Int(mode),
-              ε,
-              ω,
-              coeff[:, 1],
-              coeff[:, 2],
-              coeff[:, 3],
-              coeff[:, 4],
-              coeff[:, 5],
-              coeff[:, 6],
-              x,
-              w,
-              R)
+        ccall(dlsym(libpbrf, :__pbrf_MOD_run_pbrf), Cvoid,
+              (Ref{Int32}, Ref{Int32}, Ref{Int32}, Ref{Float64}, Ref{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64},
+               Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}), ngauss, lmax1,
+              Int(mode), ε, ω, coeff[:, 1], coeff[:, 2], coeff[:, 3], coeff[:, 4], coeff[:, 5], coeff[:, 6], x, w, R)
 
         return R, x, w
     end

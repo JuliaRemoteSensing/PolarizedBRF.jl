@@ -1,9 +1,10 @@
 name = "PolarizedBRF"
 uuid = "0faf9630-b435-4af3-9ecd-94c3fe935dc0"
 authors = ["Gabriel Wu <wuzihua@pku.edu.cn> and contributors"]
-version = "0.1.1"
+version = "0.2.0"
 
 [deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Dierckx = "39dd38d3-220a-591b-8e3c-4c3a8c710a94"
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 FastGaussQuadrature = "442a2c76-b920-505d-bb47-c5924d526838"

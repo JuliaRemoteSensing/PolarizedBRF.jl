@@ -2,11 +2,12 @@ module PolarizedBRF
 
 @enum QuadratureMode None NormalOrientedQuadrature StandardQuadrature ExplicitNormalQuadrature CustomQuadrature
 
-using Dierckx: Spline2D
+using DataFrames: DataFrame
+using Dierckx: Spline1D, Spline2D
 using DocStringExtensions: SIGNATURES
 using FastGaussQuadrature: gausslegendre
-using Interpolations: LinearInterpolation, Linear
-using OffsetArrays: OffsetArray
+using Interpolations: LinearInterpolation, Line
+using OffsetArrays: OffsetArray, OffsetVector
 using StaticArrays: @SMatrix
 
 const Δ = @SMatrix [1 0 0 0
@@ -22,7 +23,15 @@ const Δ₃₄ = @SMatrix [1 0 0 0
 const Δp = Δ + Δ₃₄
 const Δm = Δ - Δ₃₄
 
+include("utils.jl")
+export F_from_expansion
+
 include("expansion.jl")
+export expand
+
+include("packed.jl")
+export ssf_correction
+
 include("wrapper.jl")
 
 """
@@ -50,8 +59,7 @@ function evaluate(itps, μ, ϕ, μ₀, ϕ₀)
     for m in 0:mmax
         coeff = m == 0 ? 0.25 : 0.5
         Rm = @SMatrix([itps[i, j, m + 1](μ, μ₀) for i in 1:4, j in 1:4])
-        Rμϕ += ((Δp * Rm * Δp + Δm * Rm * Δm) * cos(m * Δϕ) +
-                (Δm * Rm * Δp - Δp * Rm * Δm) * sin(m * Δϕ)) * coeff
+        Rμϕ += ((Δp * Rm * Δp + Δm * Rm * Δm) * cos(m * Δϕ) + (Δm * Rm * Δp - Δp * Rm * Δm) * sin(m * Δϕ)) * coeff
     end
 
     return Rμϕ

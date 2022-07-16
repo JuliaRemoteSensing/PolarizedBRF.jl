@@ -3,11 +3,7 @@ using PolarizedBRF
 
 coeff = readdlm(joinpath(@__DIR__, "..", "fixture", "coeff.txt"))
 NG = 49
-R, x, w = PolarizedBRF.Wrapper.run_pbrf(1.0,
-                                        NG,
-                                        coeff;
-                                        epsilon=1e-7,
-                                        mode=PolarizedBRF.StandardQuadrature)
+R, x, w = PolarizedBRF.Wrapper.run_pbrf(1.0, NG, coeff; epsilon=1e-7, mode=PolarizedBRF.StandardQuadrature)
 
 @show R[:, :, 25, 25, 1]
 @show R[:, :, 25, 25, 3]
