@@ -4,7 +4,7 @@
 
 @inline ξ(m, n) = n >= m ? 1 : (-1)^(m - n)
 
-# TODO: find a better way to parrelize the expansion
+# TODO: find a better way to parallelize the expansion
 
 """
 Expand given scattering matrix (6-independent columns: a1, a2, a3, a4, b1, b2) to General Spherical Function (GSF) coefficients.
@@ -57,7 +57,7 @@ function expand(F, θ₀; smax=-1, smin=30, ngauss=identity, double_threshold=50
         F_itp = [itp[i](θj) for i in 1:6, θj in θ]
         expansion = zeros(s + 1, 6)
 
-        for i in 1:length(μ)
+        for i in eachindex(μ)
             μi = μ[i]
 
             wignerd!(d₀₀, s, 0, 0, μi, cjj₀₀, cj₀₀, j2, jj)
@@ -125,7 +125,7 @@ function expand(F, θ₀; smax=-1, smin=30, ngauss=identity, double_threshold=50
         end
 
         if s < double_threshold
-            s = min(min(max(s, 1) * 2, double_threshold), stop_threshold)
+            s = min(max(s, 1) * 2, double_threshold, stop_threshold)
         else
             s = min(s + adding_step, stop_threshold)
         end

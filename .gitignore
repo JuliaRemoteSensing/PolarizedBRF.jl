@@ -8,3 +8,8 @@
 *.dylib
 *.dll
 *.mem
+Manifest.toml
+/archive
+/.vscode
+/examples
+/src/native.jl
