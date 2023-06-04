@@ -1,13 +1,12 @@
 module Wrapper
 
 using DocStringExtensions: SIGNATURES
-using Libdl: dlopen, dlsym
+using Libdl: dlext, dlopen, dlsym
 using ..PolarizedBRF
 
 export run_pbrf
 
-const LIBPBRF = joinpath(@__DIR__, "..", "shared",
-                         "libpbrf" * (Sys.iswindows() ? ".dll" : Sys.islinux() ? ".so" : ".dylib"))
+const LIBPBRF = joinpath(@__DIR__, "..", "shared", "libpbrf." * dlext)
 
 """
 Calculate the Fourier coefficients of the refletion matrix using PolarizedBRF.
